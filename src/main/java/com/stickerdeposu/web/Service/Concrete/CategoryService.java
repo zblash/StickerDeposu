@@ -4,9 +4,11 @@ import com.stickerdeposu.web.Repositories.CategoryRepository;
 import com.stickerdeposu.web.Service.Abstract.ICategoryService;
 import com.stickerdeposu.web.models.Category;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class CategoryService implements ICategoryService {
 
     @Autowired

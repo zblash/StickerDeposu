@@ -4,9 +4,10 @@ import com.stickerdeposu.web.Repositories.UserRepository;
 import com.stickerdeposu.web.Service.Abstract.IUserService;
 import com.stickerdeposu.web.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+@Service
 public class UserService implements IUserService {
 
     @Autowired

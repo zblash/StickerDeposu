@@ -15,8 +15,14 @@ public class Category {
     @NotNull
     private String categoryName;
 
+    @NotNull
+    private String description;
+
     @OneToMany(mappedBy = "category",cascade = CascadeType.REMOVE,orphanRemoval = true)
     private Set<Product> products;
+
+    public Category() {
+    }
 
     public Category(@NotNull String categoryName, Set<Product> products) {
         this.categoryName = categoryName;
@@ -37,6 +43,14 @@ public class Category {
 
     public void setCategoryName(String categoryName) {
         this.categoryName = categoryName;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Set<Product> getProducts() {

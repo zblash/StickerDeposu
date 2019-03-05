@@ -4,9 +4,10 @@ import com.stickerdeposu.web.Repositories.RoleRepository;
 import com.stickerdeposu.web.Service.Abstract.IRoleService;
 import com.stickerdeposu.web.models.Role;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+@Service
 public class RoleService implements IRoleService {
 
     @Autowired

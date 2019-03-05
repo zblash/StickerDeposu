@@ -4,9 +4,10 @@ import com.stickerdeposu.web.Repositories.PhotoRepository;
 import com.stickerdeposu.web.Service.Abstract.IPhotoService;
 import com.stickerdeposu.web.models.Photo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+@Service
 public class PhotoService implements IPhotoService {
 
     @Autowired
