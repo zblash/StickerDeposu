@@ -3,6 +3,7 @@ package com.stickerdeposu.web.controllers.Admin;
 import com.stickerdeposu.web.DTOs.CreateProductDTO;
 import com.stickerdeposu.web.Service.Concrete.CategoryService;
 import com.stickerdeposu.web.Service.Concrete.ProductService;
+import com.stickerdeposu.web.Service.Concrete.StorageService;
 import com.stickerdeposu.web.models.Product;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,12 +28,11 @@ import java.nio.file.StandardCopyOption;
 @RequestMapping("/admin/product")
 public class ProductController {
 
-    @Value("${upload.path}")
-    private String pathu;
-
-
     @Autowired
     private ProductService productService;
+
+    @Autowired
+    private StorageService storageService;
 
     @Autowired
     private CategoryService categoryService;
@@ -50,15 +50,7 @@ public class ProductController {
     public String createPost(@ModelAttribute CreateProductDTO productDTO, Model model){
         model.addAttribute("product",productDTO);
         for (MultipartFile file : productDTO.getPhotos()){
-            logger.info(file.getOriginalFilename());
-            try {
-                byte[] bytes = file.getBytes();
-                Path path = Paths.get("C://cmder_mini/" + file.getOriginalFilename());
-                logger.info(path.toString());
-                Files.write(path, bytes);
-            }catch (IOException e){
-
-            }
+            storageService.store(file);
         }
 
         return "/admin/product/create";
