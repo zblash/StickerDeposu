@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form th:action="@{/admin/product/create}" enctype="multipart/form-data" th:object="${product}" method="post">
+    <label>Ürün Adı </label>
+    <input type="text" id="categoryName" placeholder="Ürün Adı" th:field="*{ProductName}" class="form-control"/><br/>
+    <span th:if="${#fields.hasErrors('ProductName')}" th:errors="*{ProductName}">Category Error</span>
+
+    <label>Ürün Açıklaması </label>
+    <input type="text" id="description" placeholder="Ürün Açıklaması" th:field="*{Description}" class="form-control"/><br/>
+    <span th:if="${#fields.hasErrors('description')}" th:errors="*{description}">Description Error</span>
+
+
+    <select th:field="*{CategoryId}" >
+        <option th:each="cat : ${categories}" th:value="${cat.id}" th:text="${cat.categoryName}"></option>
+    </select>
+
+    <input type="file" th:field="*{Photos}" />
+
+    <button type="submit" class="btn btn-primary text-center form-control">Kaydet</button>
+</form>
+</body>
+</html>

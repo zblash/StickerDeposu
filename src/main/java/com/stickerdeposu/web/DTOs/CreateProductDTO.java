@@ -1,5 +1,7 @@
 package com.stickerdeposu.web.DTOs;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import java.io.File;
 import java.util.List;
 
@@ -11,7 +13,7 @@ public class CreateProductDTO {
 
     private int quantity;
 
-    private List<File> photos;
+    private MultipartFile photos[];
 
     private Long categoryId;
 
@@ -42,11 +44,11 @@ public class CreateProductDTO {
         this.quantity = quantity;
     }
 
-    public List<File> getPhotos() {
+    public MultipartFile[] getPhotos() {
         return photos;
     }
 
-    public void setPhotos(List<File> photos) {
+    public void setPhotos(MultipartFile[] photos) {
         this.photos = photos;
     }
 
@@ -58,7 +60,7 @@ public class CreateProductDTO {
         this.categoryId = categoryId;
     }
 
-    public CreateProductDTO(String productName, String description, int quantity, List<File> photos, Long categoryId) {
+    public CreateProductDTO(String productName, String description, int quantity, MultipartFile photos[], Long categoryId) {
         this.productName = productName;
         this.description = description;
         this.quantity = quantity;
