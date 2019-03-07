@@ -1,10 +1,15 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.w3.org/1999/xhtml">
+<html xmlns:th="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/fragments/_layout}">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
+<div class="container-fluid" layout:fragment="content">
+    <div class="row">
+        <div class="col-lg-9">
 <form th:action="@{/admin/product/create}" enctype="multipart/form-data" th:object="${product}" method="post">
     <label>Ürün Adı </label>
     <input type="text" id="categoryName" placeholder="Ürün Adı" th:field="*{ProductName}" class="form-control"/><br/>
@@ -14,14 +19,115 @@
     <input type="text" id="description" placeholder="Ürün Açıklaması" th:field="*{Description}" class="form-control"/><br/>
     <span th:if="${#fields.hasErrors('description')}" th:errors="*{description}">Description Error</span>
 
+    <label>Adet </label>
+    <input type="text" id="quantity" placeholder="Ürün Açıklaması" th:field="*{Quantity}" class="form-control"/><br/>
+    <span th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}">Description Error</span>
 
-    <select th:field="*{CategoryId}" >
+    <select th:field="*{CategoryId}" class="form-control">
         <option th:each="cat : ${categories}" th:value="${cat.id}" th:text="${cat.categoryName}"></option>
     </select>
 
-    <input type="file" th:field="*{Photos}" />
-    <span th:if="${#fields.hasErrors('photos')}" th:errors="*{photos}">Description Error</span>
+    <input type="hidden" id="productPhoto" th:field="*{Photo}" />
+
     <button type="submit" class="btn btn-primary text-center form-control">Kaydet</button>
 </form>
+
+        </div>
+        <div class="col-lg-3">
+            <div id="displayPhoto"></div>
+
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#photoModal">
+                Resim Ekle
+            </button>
+
+            <!-- Modal -->
+            <div class="modal fade bd-example-modal-xl" id="photoModal" tabindex="-1" role="dialog" aria-labelledby="photoModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Resim Ekle</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="bs-component">
+                                <ul class="nav nav-tabs">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" data-toggle="tab" href="#newPhoto">Yeni Ekle</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" href="#selectPhoto">Ekli Olanlardan Seç</a>
+                                    </li>
+                                </ul>
+                                <div id="myTabContent" class="tab-content">
+                                    <div class="tab-pane fade active show" id="newPhoto">
+                                        <form id="addphoto" enctype="multipart/form-data">
+                                            <input type="file" name="photo"/>
+                                            <button type="submit" class="btn btn-primary text-center form-control">Ekle</button>
+                                        </form>
+                                    </div>
+                                    <div class="tab-pane fade" id="selectPhoto">
+                                        <p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts ullamco ad vinyl cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit.</p>
+                                    </div>
+
+                                </div>
+                                <div id="source-button" class="btn btn-primary btn-xs" style="display: none;">&lt; &gt;</div></div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<th:block layout:fragment="script">
+    <script th:src="@{/page.js}"></script>
+    <script>
+        $(document).ready(function () {
+
+            $("#addphoto").submit(function (event) {
+
+                //stop submit the form, we will post it manually.
+                event.preventDefault();
+
+                fire_ajax_submit();
+
+            });
+
+        });
+
+        function fire_ajax_submit() {
+            console.log("buradayim");
+            var form = $('#addphoto')[0];
+
+            var data = new FormData(form);
+            $.ajax({
+                type: "POST",
+                enctype: 'multipart/form-data',
+                url: "/photo/add",
+                data: data,
+                processData: false,
+                contentType: false,
+                cache: false,
+                timeout: 600000,
+                success: function (data) {
+                    $('#photoModal').modal('hide');
+                    $("#displayPhoto").prepend(`<img id="theImg" src="/uploads/${data}" />`)
+                    $("#productPhoto").val(data)
+                },
+                error: function (e) {
+
+                    console.log("ERROR : ", e);
+
+                }
+            });
+
+        }
+    </script>
+</th:block>
 </body>
 </html>

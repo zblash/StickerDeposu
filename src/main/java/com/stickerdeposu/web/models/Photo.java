@@ -1,3 +1,4 @@
+
 package com.stickerdeposu.web.models;
 
 import javax.persistence.*;
@@ -14,15 +15,10 @@ public class Photo {
     @NotNull
     private String directory;
 
-    @ManyToOne
-    @JoinColumn(name = "product_id")
-    private Product product;
-
     public Photo(){}
 
-    public Photo(@NotNull String directory, Product product) {
+    public Photo(@NotNull String directory) {
         this.directory = directory;
-        this.product = product;
     }
 
     public Long getId() {
@@ -39,13 +35,5 @@ public class Photo {
 
     public void setDirectory(String directory) {
         this.directory = directory;
-    }
-
-    public Product getProduct() {
-        return product;
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
     }
 }

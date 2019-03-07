@@ -1,8 +1,8 @@
 package com.stickerdeposu.web.models;
 
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.Set;
 
 @Entity
 @Table(name = "products")
@@ -25,14 +25,12 @@ public class Product {
     @JoinColumn(name = "category_id")
     private Category category;
 
-    @OneToMany(mappedBy = "product",cascade = CascadeType.REMOVE,orphanRemoval = true)
-    private Set<Photo> photos;
+    @NotNull
+    @Transient
+    private int categoryId;
 
-    public Product(@NotNull String productName, Category category, Set<Photo> photos) {
-        this.productName = productName;
-        this.category = category;
-        this.photos = photos;
-    }
+    @NotNull
+    private String photo;
 
     public Product() {
 
@@ -78,11 +76,20 @@ public class Product {
         this.category = category;
     }
 
-    public Set<Photo> getPhotos() {
-        return photos;
+    public int getCategoryId() {
+        return categoryId;
     }
 
-    public void setPhotos(Set<Photo> photos) {
-        this.photos = photos;
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
     }
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
+
 }

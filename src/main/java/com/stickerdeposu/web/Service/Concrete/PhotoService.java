@@ -30,13 +30,10 @@ public class PhotoService implements IPhotoService {
     }
 
     @Override
-    public void Create(List<String> names, Product product){
-        names.forEach(fileName -> {
+    public void Create(String fileName){
             Photo photo = new Photo();
             photo.setDirectory(fileName);
-            photo.setProduct(product);
             photoRepository.save(photo);
-        });
     }
 
     @Override

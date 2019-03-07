@@ -4,6 +4,8 @@ import com.stickerdeposu.web.Validations.Abstract.ValidImg;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CreateProductDTO {
 
@@ -17,7 +19,7 @@ public class CreateProductDTO {
     private int quantity;
 
     @ValidImg
-    private MultipartFile photos[];
+    private List<MultipartFile> photos;
 
     private Long categoryId;
 
@@ -48,13 +50,6 @@ public class CreateProductDTO {
         this.quantity = quantity;
     }
 
-    public MultipartFile[] getPhotos() {
-        return photos;
-    }
-
-    public void setPhotos(MultipartFile[] photos) {
-        this.photos = photos;
-    }
 
     public Long getCategoryId() {
         return categoryId;
@@ -64,7 +59,7 @@ public class CreateProductDTO {
         this.categoryId = categoryId;
     }
 
-    public CreateProductDTO(String productName, String description, int quantity, MultipartFile photos[], Long categoryId) {
+    public CreateProductDTO(String productName, String description, int quantity, List<MultipartFile> photo, Long categoryId) {
         this.productName = productName;
         this.description = description;
         this.quantity = quantity;

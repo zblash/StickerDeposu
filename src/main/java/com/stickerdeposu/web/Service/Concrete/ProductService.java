@@ -29,22 +29,18 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public Product Create(CreateProductDTO productDTO) {
-        Product product = new Product();
-        product.setProductName(productDTO.getProductName());
-        product.setDescription(productDTO.getDescription());
-        product.setCategory(categoryRepository.findById(productDTO.getCategoryId()).orElseThrow(RuntimeException::new));
-        product.setQuantity(productDTO.getQuantity());
-
-        return productRepository.save(product);
+    public Product Create(Product productDTO) {
+        productDTO.setCategory(categoryRepository.findById(Long.valueOf(productDTO.getCategoryId())).orElseThrow(RuntimeException::new));
+        return productRepository.save(productDTO);
     }
 
     @Override
     public Product Update(Product product, Product updatedProduct) {
         product.setProductName(updatedProduct.getProductName());
         product.setDescription(updatedProduct.getDescription());
-        product.setCategory(updatedProduct.getCategory());
+        product.setCategory(categoryRepository.findById(Long.valueOf(updatedProduct.getCategoryId())).orElseThrow(RuntimeException::new));
         product.setQuantity(updatedProduct.getQuantity());
+        product.setPhoto(updatedProduct.getPhoto());
         return productRepository.save(product);
     }
 

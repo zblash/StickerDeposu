@@ -13,7 +13,7 @@ public interface IPhotoService {
 
     void Save(Photo photo);
 
-    void Create(List<String> names, Product product);
+    void Create(String fileName);
 
     void Delete(Photo photo);
 }

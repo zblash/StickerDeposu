@@ -9,7 +9,7 @@ import java.util.stream.Stream;
 
 public interface IStorageService {
     
-        List<String> store(MultipartFile files[]);
+        String store(MultipartFile file);
 
         Stream<Path> loadAll();
 

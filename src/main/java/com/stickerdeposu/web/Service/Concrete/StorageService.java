@@ -14,7 +14,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -24,20 +24,16 @@ public class StorageService implements IStorageService {
     private final Path rootLocation = Paths.get("upload-dir");
 
     @Override
-    public List<String> store(MultipartFile files[]) {
-            List<String> fileNames = new ArrayList<>();
-            Arrays.stream(files).forEach(file -> {
+    public String store(MultipartFile file) {
+        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+        fileName = String.valueOf(new Date().getTime()).concat(fileName);
+        fileName = fileName.toLowerCase().replaceAll(" ", "-");
                 try {
-                String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-                fileName = fileName.toLowerCase().replaceAll(" ", "-");
-                fileNames.add(fileName);
                 Files.copy(file.getInputStream(), this.rootLocation.resolve(fileName));
                 }catch (IOException e){
                     throw new RuntimeException();
                 }
-            });
-
-            return fileNames;
+                return fileName;
     }
 
     @Override
