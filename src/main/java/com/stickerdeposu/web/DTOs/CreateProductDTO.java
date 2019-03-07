@@ -1,18 +1,22 @@
 package com.stickerdeposu.web.DTOs;
 
+import com.stickerdeposu.web.Validations.Abstract.ValidImg;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.util.List;
+import javax.validation.constraints.NotNull;
 
 public class CreateProductDTO {
 
+    @NotNull(message = "Boş Geçilemez")
     private String productName;
 
+    @NotNull(message = "Boş Geçilemez")
     private String description;
 
+    @NotNull(message = "Boş Geçilemez")
     private int quantity;
 
+    @ValidImg
     private MultipartFile photos[];
 
     private Long categoryId;

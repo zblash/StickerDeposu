@@ -18,6 +18,8 @@ public class Photo {
     @JoinColumn(name = "product_id")
     private Product product;
 
+    public Photo(){}
+
     public Photo(@NotNull String directory, Product product) {
         this.directory = directory;
         this.product = product;

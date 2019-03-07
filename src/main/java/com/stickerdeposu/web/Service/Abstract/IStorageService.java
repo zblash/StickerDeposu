@@ -1,14 +1,15 @@
 package com.stickerdeposu.web.Service.Abstract;
 
+import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.annotation.Resource;
 import java.nio.file.Path;
+import java.util.List;
 import java.util.stream.Stream;
 
 public interface IStorageService {
     
-        void store(MultipartFile file);
+        List<String> store(MultipartFile files[]);
 
         Stream<Path> loadAll();
 
@@ -18,5 +19,6 @@ public interface IStorageService {
 
         void deleteAll();
 
+        void init();
 }
 

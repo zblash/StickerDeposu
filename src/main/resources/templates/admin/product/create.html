@@ -20,7 +20,7 @@
     </select>
 
     <input type="file" th:field="*{Photos}" />
-
+    <span th:if="${#fields.hasErrors('photos')}" th:errors="*{photos}">Description Error</span>
     <button type="submit" class="btn btn-primary text-center form-control">Kaydet</button>
 </form>
 </body>

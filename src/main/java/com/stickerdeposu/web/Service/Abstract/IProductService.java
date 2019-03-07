@@ -1,5 +1,6 @@
 package com.stickerdeposu.web.Service.Abstract;
 
+import com.stickerdeposu.web.DTOs.CreateProductDTO;
 import com.stickerdeposu.web.models.Product;
 
 import java.util.List;
@@ -10,7 +11,9 @@ public interface IProductService {
 
     Product findById(Long id);
 
-    void Save(Product product);
+    Product Create(CreateProductDTO productDTO);
+
+    Product Update(Product product,Product updatedProduct);
 
     void Delete(Product product);
 }
