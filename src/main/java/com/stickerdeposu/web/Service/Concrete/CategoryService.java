@@ -4,6 +4,7 @@ import com.stickerdeposu.web.Repositories.CategoryRepository;
 import com.stickerdeposu.web.Service.Abstract.ICategoryService;
 import com.stickerdeposu.web.models.Category;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
@@ -17,8 +18,8 @@ public class CategoryService implements ICategoryService {
     private CategoryRepository categoryRepository;
 
     @Override
-    public List<Category> findAll(int page) {
-        return categoryRepository.findAll(PageRequest.of(page,10)).getContent().stream().collect(Collectors.toList());
+    public Page<Category> findAll(int page) {
+        return categoryRepository.findAll(PageRequest.of(page,10));
     }
 
     @Override

@@ -8,6 +8,7 @@ import com.stickerdeposu.web.models.Product;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
@@ -20,6 +21,8 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Controller
 @RequestMapping("/admin/product")
@@ -36,11 +39,18 @@ public class ProductController {
     @GetMapping("/")
     public String getProducts(@RequestParam(required = false) Map<String,String> requestParams, Model model){
 
-        int page = Integer.valueOf(Optional.ofNullable(requestParams.get("page")).orElse("0"));
-        List<Product> products = requestParams.get("categoryid") != null ?
-                    productService.findByCategoryId(Long.valueOf(requestParams.get("categoryid")), page)
-                    : productService.findAll(page);
+        int page = Integer.valueOf(Optional.ofNullable(requestParams.get("page")).orElse("1"));
+        Page<Product> products = requestParams.get("categoryid") != null ?
+                    productService.findByCategoryId(Long.valueOf(requestParams.get("categoryid")), page-1)
+                    : productService.findAll(page-1);
         model.addAttribute("products",products);
+        int totalPages = products.getTotalPages();
+        if (totalPages > 0) {
+            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+                    .boxed()
+                    .collect(Collectors.toList());
+            model.addAttribute("pageNumbers", pageNumbers);
+        }
         return "/admin/product/index";
     }
 

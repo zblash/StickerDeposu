@@ -4,7 +4,6 @@
       layout:decorate="~{admin/fragments/_layout}">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
 </head>
 <body>
 <div class="container-fluid" layout:fragment="content">
@@ -24,7 +23,7 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:each="product : ${products}">
+    <tr th:each="product : ${products.content}">
         <td><p th:text="${product.id}"> Id </p></td>
         <td><p th:text="${product.productName}"> Name </p></td>
         <td><p th:text="${product.category.categoryName}"> Groupname </p></td>
@@ -36,6 +35,18 @@
     </tbody>
 </table>
 
+        <ul th:if="${products.totalPages > 0}" class="pagination justify-content-end">
+            <li class="page-item" th:classappend="${products.number+1 == 1 || products.number == null} ? disabled">
+                <a class="page-link" th:href="@{/admin/product/(page=${products.number})}" tabindex="-1" aria-disabled="true">Önceki</a>
+            </li>
+            <li class="page-item" th:each="pageNumber : ${pageNumbers}" th:classappend="${pageNumber==products.number + 1} ? active">
+                <a class="page-link" th:href="@{/admin/product/(page=${pageNumber})}"
+                   th:text="${pageNumber}"></a>
+            </li>
+            <li class="page-item" th:classappend="${products.number+1 == products.totalPages} ? disabled">
+                <a class="page-link" th:href="@{/admin/product/(page=${products.number+2})}">Sonraki</a>
+            </li>
+        </ul>
     </div>
 </div>
 </div>

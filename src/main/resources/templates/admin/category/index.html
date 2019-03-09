@@ -4,7 +4,6 @@
       layout:decorate="~{admin/fragments/_layout}">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
 </head>
 <body>
 <div class="container-fluid" layout:fragment="content">
@@ -21,7 +20,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="category : ${categories}">
+                <tr th:each="category : ${categories.content}">
                     <td><p th:text="${category.id}"> Id </p></td>
                     <td><p th:text="${category.categoryName}"> CategoryName </p></td>
                     <td><p th:text="${category.description}"> Description </p></td>
@@ -33,6 +32,18 @@
                 </tr>
                 </tbody>
             </table>
+            <ul th:if="${categories.totalPages > 0}" class="pagination justify-content-end">
+                <li class="page-item" th:classappend="${categories.number+1 == 1 || categories.number == null} ? disabled">
+                    <a class="page-link" th:href="@{/admin/category/(page=${categories.number})}" tabindex="-1" aria-disabled="true">Önceki</a>
+                </li>
+                <li class="page-item" th:each="pageNumber : ${pageNumbers}" th:classappend="${pageNumber==categories.number + 1} ? active">
+                    <a class="page-link" th:href="@{/admin/category/(page=${pageNumber})}"
+                       th:text="${pageNumber}"></a>
+                </li>
+                <li class="page-item" th:classappend="${categories.number+1 == categories.totalPages} ? disabled">
+                    <a class="page-link" th:href="@{/admin/category/(page=${categories.number+2})}">Sonraki</a>
+                </li>
+            </ul>
         </div>
     </div>
 </div>
