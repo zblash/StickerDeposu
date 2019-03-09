@@ -2,13 +2,17 @@ package com.stickerdeposu.web.controllers.Admin;
 
 import com.stickerdeposu.web.Service.Concrete.CategoryService;
 import com.stickerdeposu.web.models.Category;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/admin/category")
@@ -17,9 +21,11 @@ public class CategoryController {
     @Autowired
     private CategoryService categoryService;
 
+    Logger logger = LoggerFactory.getLogger(CategoryController.class);
     @GetMapping("/")
-    public String getCategories(Model model){
-        model.addAttribute("categories",categoryService.findAll());
+    public String getCategories(@RequestParam(required = false) Integer page, Model model){
+        int getPage = Optional.ofNullable(page).orElse(0);
+        model.addAttribute("categories",categoryService.findAll(getPage));
         return "/admin/category/index";
     }
 

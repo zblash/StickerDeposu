@@ -4,9 +4,11 @@ import com.stickerdeposu.web.Repositories.CategoryRepository;
 import com.stickerdeposu.web.Service.Abstract.ICategoryService;
 import com.stickerdeposu.web.models.Category;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CategoryService implements ICategoryService {
@@ -15,8 +17,8 @@ public class CategoryService implements ICategoryService {
     private CategoryRepository categoryRepository;
 
     @Override
-    public List<Category> findAll() {
-        return categoryRepository.findAll();
+    public List<Category> findAll(int page) {
+        return categoryRepository.findAll(PageRequest.of(page,10)).getContent().stream().collect(Collectors.toList());
     }
 
     @Override
@@ -32,5 +34,10 @@ public class CategoryService implements ICategoryService {
     @Override
     public void Delete(Category category) {
         categoryRepository.delete(category);
+    }
+
+    @Override
+    public List<Category> findAllWithoutPage() {
+        return categoryRepository.findAll();
     }
 }

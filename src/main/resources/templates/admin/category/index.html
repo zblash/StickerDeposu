@@ -1,28 +1,40 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.w3.org/1999/xhtml">
+<html xmlns:th="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/fragments/_layout}">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
-<table class="table table-hover">
-    <thead>
-    <tr>
-        <th scope="col">Kullanıcı Adı</th>
-        <th scope="col">İsmi</th>
-            <th scope="col">İşlem</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="category : ${categories}">
-        <td><p th:text="${category.categoryName}"> Name </p></td>
-        <td><p th:text="${category.description}"> Name </p></td>
-            <td>
-                <button>X</button>
-            </td>
+<div class="container-fluid" layout:fragment="content">
+    <h1 class="h3 mb-2 text-gray-800">Kategoriler</h1>
+    <div class="row">
+        <div class="col-lg-12">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Kategori Adı</th>
+                    <th scope="col">Açıklama</th>
+                    <th scope="col">İşlem</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="category : ${categories}">
+                    <td><p th:text="${category.id}"> Id </p></td>
+                    <td><p th:text="${category.categoryName}"> CategoryName </p></td>
+                    <td><p th:text="${category.description}"> Description </p></td>
+                    <td>
+                        <a th:href="@{/admin/product/(categoryid=${category.id})}">Ürünlere Git</a>
+                        <a th:href="@{/admin/category/update/{categoryId} (categoryId=${category.id})}">Düzenle</a>
+                    </td>
 
-    </tr>
-    </tbody>
-</table>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 </body>
 </html>

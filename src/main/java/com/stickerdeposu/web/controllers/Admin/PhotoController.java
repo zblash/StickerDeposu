@@ -32,4 +32,10 @@ public class PhotoController {
         return new ResponseEntity<>(fileName, new HttpHeaders(), HttpStatus.OK);
     }
 
+    @PostMapping("/photos")
+    @ResponseBody
+    public ResponseEntity<?> getPhotos(){
+        return new ResponseEntity<>(photoService.findAll(), new HttpHeaders(), HttpStatus.OK);
+    }
+
 }

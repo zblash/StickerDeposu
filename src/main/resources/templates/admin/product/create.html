@@ -8,6 +8,7 @@
 </head>
 <body>
 <div class="container-fluid" layout:fragment="content">
+    <h1 class="h3 mb-2 text-gray-800">Ürün Ekle</h1>
     <div class="row">
         <div class="col-lg-9">
 <form th:action="@{/admin/product/create}" enctype="multipart/form-data" th:object="${product}" method="post">
@@ -36,19 +37,20 @@
         <div class="col-lg-3">
             <div id="displayPhoto"></div>
 
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#photoModal">
+            <button type="button" class="btn btn-primary text-center form-control" data-toggle="modal" data-target="#photoModal">
                 Resim Ekle
             </button>
 
             <!-- Modal -->
             <div class="modal fade bd-example-modal-xl" id="photoModal" tabindex="-1" role="dialog" aria-labelledby="photoModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
+                <div class="modal-dialog modal-xl">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="exampleModalLabel">Resim Ekle</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
+
                         </div>
                         <div class="modal-body">
                             <div class="bs-component">
@@ -57,7 +59,7 @@
                                         <a class="nav-link active" data-toggle="tab" href="#newPhoto">Yeni Ekle</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" data-toggle="tab" href="#selectPhoto">Ekli Olanlardan Seç</a>
+                                        <a class="nav-link" data-toggle="tab" id="getPhotos" href="#selectPhoto">Ekli Olanlardan Seç</a>
                                     </li>
                                 </ul>
                                 <div id="myTabContent" class="tab-content">
@@ -68,7 +70,7 @@
                                         </form>
                                     </div>
                                     <div class="tab-pane fade" id="selectPhoto">
-                                        <p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts ullamco ad vinyl cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit.</p>
+
                                     </div>
 
                                 </div>
@@ -86,48 +88,7 @@
 </div>
 <th:block layout:fragment="script">
     <script th:src="@{/page.js}"></script>
-    <script>
-        $(document).ready(function () {
-
-            $("#addphoto").submit(function (event) {
-
-                //stop submit the form, we will post it manually.
-                event.preventDefault();
-
-                fire_ajax_submit();
-
-            });
-
-        });
-
-        function fire_ajax_submit() {
-            console.log("buradayim");
-            var form = $('#addphoto')[0];
-
-            var data = new FormData(form);
-            $.ajax({
-                type: "POST",
-                enctype: 'multipart/form-data',
-                url: "/photo/add",
-                data: data,
-                processData: false,
-                contentType: false,
-                cache: false,
-                timeout: 600000,
-                success: function (data) {
-                    $('#photoModal').modal('hide');
-                    $("#displayPhoto").prepend(`<img id="theImg" src="/uploads/${data}" />`)
-                    $("#productPhoto").val(data)
-                },
-                error: function (e) {
-
-                    console.log("ERROR : ", e);
-
-                }
-            });
-
-        }
-    </script>
+    <script th:src="@{/admin/js/custom.js}"></script>
 </th:block>
 </body>
 </html>

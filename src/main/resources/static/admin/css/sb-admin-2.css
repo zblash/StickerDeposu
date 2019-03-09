@@ -12006,3 +12006,18 @@ footer.sticky-footer .copyright {
 body.sidebar-toggled footer.sticky-footer {
   width: 100%;
 }
+.modal-photo-div{
+   width: 24%;
+   border: 1px solid #d1d3e2;
+   float: left;
+   margin: 1% 0 0 1%;
+ }
+.modal-photo-div-selected{
+  border: 1px solid #2a96a5;
+}
+.modal-photo-div img {
+  width: 100%;
+}
+#theImg {
+  width: 100%;
+}
