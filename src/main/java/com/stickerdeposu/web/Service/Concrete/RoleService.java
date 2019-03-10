@@ -32,4 +32,9 @@ public class RoleService implements IRoleService {
     public void Delete(Role role) {
         roleRepository.delete(role);
     }
+
+    @Override
+    public Role findByName(String role) {
+        return roleRepository.findByRoleName(role).orElseThrow(RuntimeException::new);
+    }
 }

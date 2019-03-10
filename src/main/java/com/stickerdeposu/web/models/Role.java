@@ -15,12 +15,15 @@ public class Role {
     @NotNull
     private String roleName;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "roles",fetch = FetchType.EAGER)
     private Set<User> users;
 
     public Role(@NotNull String roleName, Set<User> users) {
         this.roleName = roleName;
         this.users = users;
+    }
+
+    public Role() {
     }
 
     public Long getId() {

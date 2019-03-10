@@ -18,7 +18,7 @@ public class Category {
     @NotNull
     private String description;
 
-    @OneToMany(mappedBy = "category",cascade = CascadeType.REMOVE,orphanRemoval = true)
+    @OneToMany(mappedBy = "category",cascade = CascadeType.REMOVE,orphanRemoval = true,fetch = FetchType.LAZY)
     private Set<Product> products;
 
     public Category() {

@@ -4,6 +4,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -36,21 +37,47 @@ public class User {
 
         private String resetToken;
 
-        @ManyToMany
+        @ManyToMany(fetch = FetchType.EAGER)
         @JoinTable(name = "user_role",
                 joinColumns =
                 @JoinColumn(name = "user_id", referencedColumnName = "id"),
                 inverseJoinColumns =
                 @JoinColumn(name = "role_id", referencedColumnName = "id"))
-        private Set<Role> roles;
+        private Set<Role> roles = new HashSet<>();
 
-    public User(@NotNull @Size(min = 3, max = 25) String userName, @Email @NotNull String email, @NotNull @Size(min = 3, max = 25) String firstName, @NotNull @Size(min = 3, max = 25) String lastName, @NotNull @Size(min = 5, max = 90) String password, String resetToken) {
+    @OneToMany(mappedBy = "user",cascade = CascadeType.REMOVE,orphanRemoval = true,fetch = FetchType.LAZY)
+        private Set<Address> addresses;
+
+
+    public void addRole(Role role){
+        roles.add(role);
+    }
+
+    public void removeRole(Role role){
+        roles.remove(role);
+    }
+
+
+    public void addAddress(Address address){
+        addresses.add(address);
+    }
+
+    public void removeAddress(Address address){
+        addresses.remove(address);
+    }
+
+    public User() {
+    }
+
+    public User(@NotNull @Size(min = 3, max = 25) String userName, @Email @NotNull String email, @NotNull @Size(min = 3, max = 25) String firstName, @NotNull @Size(min = 3, max = 25) String lastName, @NotNull @Size(min = 5, max = 90) String password, String resetToken, Set<Role> roles, Set<Address> addresses) {
         this.userName = userName;
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
         this.password = password;
         this.resetToken = resetToken;
+        this.roles = roles;
+        this.addresses = addresses;
     }
 
     public Long getId() {
