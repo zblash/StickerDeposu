@@ -40,7 +40,7 @@
                     <a class="nav-link" href="#">Services</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Contact</a>
+                    <p th:text="${#authentication.getPrincipal().getUser().getCart().getCartItems().size()}"></p>
                 </li>
             </ul>
         </div>

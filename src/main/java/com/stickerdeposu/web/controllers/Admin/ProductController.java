@@ -1,16 +1,12 @@
 package com.stickerdeposu.web.controllers.Admin;
 
-import com.stickerdeposu.web.DTOs.CreateProductDTO;
 import com.stickerdeposu.web.Service.Concrete.CategoryService;
 import com.stickerdeposu.web.Service.Concrete.ProductService;
-import com.stickerdeposu.web.Service.Concrete.StorageService;
 import com.stickerdeposu.web.models.Product;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
