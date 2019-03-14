@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-@Validated
 @RestController
 public class PhotoController {
 
@@ -24,6 +23,7 @@ public class PhotoController {
     @Autowired
     private PhotoService photoService;
 
+    @Validated
     @PostMapping("/photo/add")
     @ResponseBody
     public ResponseEntity<?> uploadPhoto(@ValidImg @RequestParam("photo") MultipartFile uploadfile){

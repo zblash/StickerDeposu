@@ -36,7 +36,7 @@ public class ProductController {
 
     Logger logger = LoggerFactory.getLogger(ProductController.class);
 
-    @GetMapping("/")
+    @GetMapping
     public String getProducts(@RequestParam(required = false) Map<String,String> requestParams, Model model){
 
         int page = Integer.valueOf(Optional.ofNullable(requestParams.get("page")).orElse("1"));

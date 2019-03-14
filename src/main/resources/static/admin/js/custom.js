@@ -1,9 +1,15 @@
 $(document).ready(function () {
 
     $("#getPhotos").on("click", function (event) {
+
+        var token = $("meta[name='_csrf']").attr("content");
+        var header = $("meta[name='_csrf_header']").attr("content");
         event.preventDefault();
         $.ajax({
             type: "POST",
+            beforeSend: function(request) {
+                request.setRequestHeader(header, token);
+            },
             url: "/photos",
             processData: false,
             contentType: false,
@@ -47,18 +53,22 @@ $(document).ready(function () {
 });
 
 function fire_ajax_submit() {
-    console.log("buradayim");
     var form = $('#addphoto')[0];
-
+    var token = $("meta[name='_csrf']").attr("content");
+    var header = $("meta[name='_csrf_header']").attr("content");
     var data = new FormData(form);
+
     $.ajax({
         type: "POST",
+        beforeSend: function(request) {
+            request.setRequestHeader(header, token);
+        },
         enctype: 'multipart/form-data',
         url: "/photo/add",
-        data: data,
         processData: false,
         contentType: false,
         cache: false,
+        data: data,
         timeout: 600000,
         success: function (data) {
             $('#photoModal').modal('hide');

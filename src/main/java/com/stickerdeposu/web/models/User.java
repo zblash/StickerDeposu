@@ -1,5 +1,7 @@
 package com.stickerdeposu.web.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
@@ -48,6 +50,10 @@ public class User {
     @OneToMany(mappedBy = "user",cascade = CascadeType.REMOVE,orphanRemoval = true,fetch = FetchType.LAZY)
         private Set<Address> addresses;
 
+    @OneToOne
+    @JoinColumn(name = "cart_id")
+    @JsonIgnore
+    private Cart cart;
 
     public void addRole(Role role){
         roles.add(role);
@@ -69,7 +75,7 @@ public class User {
     public User() {
     }
 
-    public User(@NotNull @Size(min = 3, max = 25) String userName, @Email @NotNull String email, @NotNull @Size(min = 3, max = 25) String firstName, @NotNull @Size(min = 3, max = 25) String lastName, @NotNull @Size(min = 5, max = 90) String password, String resetToken, Set<Role> roles, Set<Address> addresses) {
+    public User(@NotNull @Size(min = 3, max = 25) String userName, @Email @NotNull String email, @NotNull @Size(min = 3, max = 25) String firstName, @NotNull @Size(min = 3, max = 25) String lastName, @NotNull @Size(min = 5, max = 90) String password, String resetToken, Set<Role> roles, Set<Address> addresses, Cart cart) {
         this.userName = userName;
         this.email = email;
         this.firstName = firstName;
@@ -78,6 +84,7 @@ public class User {
         this.resetToken = resetToken;
         this.roles = roles;
         this.addresses = addresses;
+        this.cart = cart;
     }
 
     public Long getId() {
@@ -142,5 +149,21 @@ public class User {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public Set<Address> getAddresses() {
+        return addresses;
+    }
+
+    public void setAddresses(Set<Address> addresses) {
+        this.addresses = addresses;
+    }
+
+    public Cart getCart() {
+        return cart;
+    }
+
+    public void setCart(Cart cart) {
+        this.cart = cart;
     }
 }

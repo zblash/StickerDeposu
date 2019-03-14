@@ -18,9 +18,8 @@ public class Role {
     @ManyToMany(mappedBy = "roles",fetch = FetchType.EAGER)
     private Set<User> users;
 
-    public Role(@NotNull String roleName, Set<User> users) {
+    public Role(@NotNull String roleName) {
         this.roleName = roleName;
-        this.users = users;
     }
 
     public Role() {

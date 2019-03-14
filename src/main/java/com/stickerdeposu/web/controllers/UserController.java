@@ -40,7 +40,7 @@ public class UserController {
             model.addAttribute("user", user);
             return "register";
         }
-        user.addRole(roleService.findByName("ROLE_USER"));
+
         userService.Save(user);
         return "redirect:/login";
 

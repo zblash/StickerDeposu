@@ -23,6 +23,10 @@
     <input type="text" id="quantity" placeholder="Ürün Açıklaması" th:field="*{Quantity}" class="form-control"/><br/>
     <span th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}">Description Error</span>
 
+    <label>Fiyat (TL) </label>
+    <input type="text" id="price" placeholder="Ürün Açıklaması" th:field="*{Price}" class="form-control"/><br/>
+    <span th:if="${#fields.hasErrors('price')}" th:errors="*{price}">Description Error</span>
+
     <select name="CategoryId" class="form-control">
         <option th:each="cat : ${categories}" th:value="${cat.id}" th:text="${cat.categoryName}" th:selected="${cat.id==product.category.id}"></option>
     </select>

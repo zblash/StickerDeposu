@@ -21,6 +21,9 @@ public class Product {
     @NotNull
     private int quantity;
 
+    @NotNull
+    private double price;
+
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
@@ -92,4 +95,11 @@ public class Product {
         this.photo = photo;
     }
 
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
 }
