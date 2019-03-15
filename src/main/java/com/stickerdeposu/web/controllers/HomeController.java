@@ -50,25 +50,25 @@ public class HomeController {
         Product product = productService.findById(productId);
         Cart cart;
         List<CartItem> cartItems;
+        CartItem cartItem;
         Optional<Authentication> auth = Optional.ofNullable(authentication);
         if (auth.isPresent()){
-            User activeUserOpt = ((CustomPrincipal) authentication.getPrincipal()).getUser();
-            cart = session.getAttribute("cart") == null ? activeUserOpt.getCart()
-                    : (Cart) session.getAttribute("cart");
-
+            cart = ((CustomPrincipal) authentication.getPrincipal()).getUser().getCart();
             cartItems = cart.getCartItems();
-            CartItem cartItem = cartService.addCartItem(cart,cartItems,product);
+            cartItem = cartService.addCartItem(cart,cartItems,product);
             cartItemService.Save(cartItem);
-
+            cart.setTotalPrice(cartService.getTotalPrice(cart));
+            cartService.Save(cart);
         }else{
             cart = session.getAttribute("cart") == null ? new Cart()
                     : (Cart)session.getAttribute("cart");
             cartItems = cart.getCartItems();
-            CartItem cartItem = cartService.addCartItem(cart,cartItems,product);
-            cart.addItem(cartItem);
+            cartItem = cartService.addCartItem(cart,cartItems,product);
+            if (!cart.getCartItems().contains(cartItem)) cart.addItem(cartItem);
+            cart.setTotalPrice(cartService.getTotalPrice(cart));
         }
-
         session.setAttribute("cart",cart);
+        session.setAttribute("cartItemsQuantity",cartItemService.sumQuantity(cartItems));
         return "redirect:/magaza";
     }
 

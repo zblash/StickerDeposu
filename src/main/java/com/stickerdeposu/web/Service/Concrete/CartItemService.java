@@ -3,6 +3,8 @@ package com.stickerdeposu.web.Service.Concrete;
 import com.stickerdeposu.web.Repositories.CartItemRepository;
 import com.stickerdeposu.web.Service.Abstract.ICartItemService;
 import com.stickerdeposu.web.models.CartItem;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +16,7 @@ public class CartItemService implements ICartItemService {
     @Autowired
     private CartItemRepository cartItemRepository;
 
+    Logger logger = LoggerFactory.getLogger(CartItemService.class);
 
     @Override
     public List<CartItem> findAll() {
@@ -33,5 +36,11 @@ public class CartItemService implements ICartItemService {
     @Override
     public void Delete(CartItem cartItem) {
         cartItemRepository.delete(cartItem);
+    }
+
+    @Override
+    public int sumQuantity(List<CartItem> cartItems) {
+        logger.info(String.valueOf(cartItems.size()));
+        return cartItems.stream().mapToInt(CartItem::getQuantity).sum();
     }
 }

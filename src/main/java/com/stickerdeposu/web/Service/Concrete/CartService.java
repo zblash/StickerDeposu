@@ -16,8 +16,9 @@ public class CartService implements ICartService {
     @Autowired
     private CartRepository cartRepository;
 
+    @Override
     public CartItem addCartItem(Cart cart,List<CartItem> cartItems, Product product){
-        CartItem cartItem = cartItems.stream()
+        return cartItems.stream()
                 .filter(filteredCartItem -> filteredCartItem.getProduct().getId().equals(product.getId()))
                 .peek(mappedCartItem -> {
                     mappedCartItem.setQuantity(mappedCartItem.getQuantity() + 1);
@@ -25,7 +26,13 @@ public class CartService implements ICartService {
                 })
                 .findFirst()
                 .orElseGet(() -> new CartItem(product, cart, product.getPrice(), 1));
-        return cartItem;
+
+    }
+
+
+    @Override
+    public double getTotalPrice(Cart cart){
+       return cart.getCartItems().stream().mapToDouble(CartItem::getTotalPrice).sum();
     }
 
 
@@ -48,4 +55,6 @@ public class CartService implements ICartService {
     public void Delete(Cart cart) {
         cartRepository.delete(cart);
     }
+
+
 }

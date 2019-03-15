@@ -15,7 +15,7 @@ public class Cart {
     private Long id;
 
     @OneToMany(mappedBy = "cart", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER,orphanRemoval = true)
-    private List<CartItem> cartItems;
+    private List<CartItem> cartItems = new ArrayList<>();
 
     @OneToOne
     @JoinColumn(name = "user_id")
@@ -23,16 +23,21 @@ public class Cart {
 
     private double totalPrice;
 
-    public Cart() {
-        cartItems = new ArrayList<>();
-    }
-
     public void addItem(CartItem cartItem){
         cartItems.add(cartItem);
     }
 
     public void removeItem(CartItem cartItem){
         cartItems.remove(cartItem);
+    }
+
+
+    public void addItems(List<CartItem> cartItems){
+     cartItems.addAll(cartItems);
+    }
+
+    public void removeItems(List<CartItem> cartItems){
+     cartItems.removeAll(cartItems);
     }
 
     public Long getId() {
