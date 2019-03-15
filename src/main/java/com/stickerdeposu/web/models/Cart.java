@@ -23,6 +23,18 @@ public class Cart {
 
     private double totalPrice;
 
+    public Cart() {
+        cartItems = new ArrayList<>();
+    }
+
+    public void addItem(CartItem cartItem){
+        cartItems.add(cartItem);
+    }
+
+    public void removeItem(CartItem cartItem){
+        cartItems.remove(cartItem);
+    }
+
     public Long getId() {
         return id;
     }

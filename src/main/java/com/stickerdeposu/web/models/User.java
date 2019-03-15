@@ -50,9 +50,8 @@ public class User {
     @OneToMany(mappedBy = "user",cascade = CascadeType.REMOVE,orphanRemoval = true,fetch = FetchType.LAZY)
         private Set<Address> addresses;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "cart_id")
-    @JsonIgnore
     private Cart cart;
 
     public void addRole(Role role){
