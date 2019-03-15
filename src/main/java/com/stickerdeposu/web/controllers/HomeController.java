@@ -48,24 +48,18 @@ public class HomeController {
     public String addToCart(@PathVariable Long productId, Authentication authentication, HttpSession session)
     {
         Product product = productService.findById(productId);
-        Cart cart;
-        List<CartItem> cartItems;
-        CartItem cartItem;
+        Cart cart = (Cart)session.getAttribute("cart");
+        List<CartItem> cartItems = cart.getCartItems();
+        CartItem cartItem = cartService.addCartItem(cart,cartItems,product);
+        cart.setTotalPrice(cartService.getTotalPrice(cart));
+
         Optional<Authentication> auth = Optional.ofNullable(authentication);
+
         if (auth.isPresent()){
-            cart = ((CustomPrincipal) authentication.getPrincipal()).getUser().getCart();
-            cartItems = cart.getCartItems();
-            cartItem = cartService.addCartItem(cart,cartItems,product);
             cartItemService.Save(cartItem);
-            cart.setTotalPrice(cartService.getTotalPrice(cart));
             cartService.Save(cart);
         }else{
-            cart = session.getAttribute("cart") == null ? new Cart()
-                    : (Cart)session.getAttribute("cart");
-            cartItems = cart.getCartItems();
-            cartItem = cartService.addCartItem(cart,cartItems,product);
             if (!cart.getCartItems().contains(cartItem)) cart.addItem(cartItem);
-            cart.setTotalPrice(cartService.getTotalPrice(cart));
         }
         session.setAttribute("cart",cart);
         session.setAttribute("cartItemsQuantity",cartItemService.sumQuantity(cartItems));
@@ -73,14 +67,7 @@ public class HomeController {
     }
     @GetMapping("/sepetim")
     public String cartPage(Model model,Authentication authentication, HttpSession session){
-        Optional<Authentication> auth = Optional.ofNullable(authentication);
-        Cart cart;
-        if (auth.isPresent()){
-            cart = ((CustomPrincipal) authentication.getPrincipal()).getUser().getCart();
-        }else{
-            cart = session.getAttribute("cart") == null ? new Cart()
-                    : (Cart)session.getAttribute("cart");
-        }
+        Cart cart = (Cart)session.getAttribute("cart");
         model.addAttribute("cart",cart);
         return "cart";
     }
