@@ -71,5 +71,17 @@ public class HomeController {
         session.setAttribute("cartItemsQuantity",cartItemService.sumQuantity(cartItems));
         return "redirect:/magaza";
     }
-
+    @GetMapping("/sepetim")
+    public String cartPage(Model model,Authentication authentication, HttpSession session){
+        Optional<Authentication> auth = Optional.ofNullable(authentication);
+        Cart cart;
+        if (auth.isPresent()){
+            cart = ((CustomPrincipal) authentication.getPrincipal()).getUser().getCart();
+        }else{
+            cart = session.getAttribute("cart") == null ? new Cart()
+                    : (Cart)session.getAttribute("cart");
+        }
+        model.addAttribute("cart",cart);
+        return "cart";
+    }
 }

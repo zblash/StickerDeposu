@@ -40,7 +40,6 @@ public class CartItemService implements ICartItemService {
 
     @Override
     public int sumQuantity(List<CartItem> cartItems) {
-        logger.info(String.valueOf(cartItems.size()));
         return cartItems.stream().mapToInt(CartItem::getQuantity).sum();
     }
 }

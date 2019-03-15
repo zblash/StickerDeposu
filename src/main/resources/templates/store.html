@@ -41,7 +41,7 @@
                 </li>
                 <li class="nav-item">
                     <p th:if="${session.cartItemsQuantity} != null" th:text="${session.cartItemsQuantity}"></p>
-                    <p th:if="${session.cart.getTotalPrice()} != null" th:text="${session.cart.getTotalPrice()}"></p>
+                    <p th:if="${session.cart} != null" th:text="${session.cart.getTotalPrice()}"></p>
                 </li>
             </ul>
         </div>
